@@ -1,7 +1,12 @@
 import React from 'react';
 
-const InfoCard = () => {
+const InfoCard = ({ customMessageHtml }) => {
   const isIncome = Math.round(Math.random());
+  
+  if (customMessageHtml) {
+    return <div style={{ textAlign: 'center', padding: '0 10%' }} dangerouslySetInnerHTML={{ __html: customMessageHtml }} />;
+  }
+
   return (
     <div style={{ textAlign: 'center', padding: '0 10%' }}>
       Try saying: <br /> 
