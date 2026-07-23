@@ -12,7 +12,7 @@ function syncData() {
     try {
         fetchData();
     } catch (e) {
-        // Empty catch block
+        
     }
 }
 
