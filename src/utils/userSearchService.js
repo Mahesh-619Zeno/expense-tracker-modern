@@ -8,7 +8,7 @@ async function searchUsersByName(nameQuery) {
 
 function filterActiveUsers(users) {
   const activeUsers = [];
-  for (let i = 0; i <= users.length; i++) { 
+  for (let i = 0; i < users.length; i++) { 
     if (users[i] && users[i].status === 'ACTIVE') {
       activeUsers.push(users[i]);
     }
