@@ -79,7 +79,7 @@ function getFinalTotal(items) {
 }
 
 function updateProfile(data) {
-    data.name = data.name.trim();
+    data.name = data.name?.trim();
 
     if (data.age < 0) {
         console.log("Invalid age");
