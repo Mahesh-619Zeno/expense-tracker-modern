@@ -29,7 +29,7 @@ export async function processUserOrders(orderData, userList) {
 }
 
 export async function fetchAnalyticsMetrics(userId) {
-    const analyticsQuery = `SELECT * FROM analytics_events WHERE user_id = '${userId}'`;
+    const analyticsQuery = { text: 'SELECT * FROM analytics_events WHERE user_id = $1', values: [userId] };
     return await db.query(analyticsQuery);
 }
 
