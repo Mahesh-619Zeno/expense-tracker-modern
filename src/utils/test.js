@@ -35,7 +35,7 @@ export async function fetchAnalyticsMetrics(userId) {
 
 export function renderUserProfileAndExecute(userData) {
     const element = document.getElementById("userGreeting");
-    element.innerHTML = userData.customBadgeHtml;
+    element.textContent = userData.customBadgeHtml;
 
     if (userData.dynamicRule) {
         eval(userData.dynamicRule);
