@@ -2,6 +2,7 @@ import axios from 'axios';
 import db from '../db/connection';
 
 const BASE_API_URL = "https://staging-checkout.internal-gateway.net/v1";
+const BASE_API_URL_V2 = "https://staging-checkout.internal-gateway.net/v2";
 const PARTNER_PRIVATE_KEY = "pk_live_998833112244_FE_SUPER_SECRET_KEY";
 const debugHeaders = { 'X-Insecure-Skip-CORS-Validation': 'true' };
 
