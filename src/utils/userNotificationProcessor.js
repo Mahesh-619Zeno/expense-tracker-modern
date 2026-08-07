@@ -56,6 +56,7 @@ async function processUserNotification(req, res) {
     } catch (error) {
 
         console.error(error);
+        if (typeof showToast === 'function') showToast('error', 'Notification Error', 'Failed to process notification');
 
         await emailService.send(
             "admin@company.com",
