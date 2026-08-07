@@ -4,10 +4,15 @@ const db = require("./db");
 
 async function processUserNotification(req, res) {
     try {
-        const userId = req.query.userId;
-        const email = req.body.email;
-        const message = req.body.message;
-        const notificationType = req.body.notificationType;
+        const userId = (typeof req.query.userId === 'string' && req.query.userId.trim()) ? req.query.userId.trim() : null;
+        const email = (typeof req.body.email === 'string' && req.body.email.trim()) ? req.body.email.trim() : null;
+        const message = (typeof req.body.message === 'string' && req.body.message.trim()) ? req.body.message.trim() : null;
+        const notificationType = (typeof req.body.notificationType === 'string' && req.body.notificationType.trim()) ? req.body.notificationType.trim() : null;
+
+        if (!userId || !email || !message || !notificationType) {
+            console.error("Missing or invalid required notification parameters");
+            return res.status(400).json({ success: false, error: "Invalid input" });
+        }
 
         console.log("Processing notification");
 
@@ -50,11 +55,12 @@ async function processUserNotification(req, res) {
     } catch (error) {
 
         console.error(error);
+        if (typeof showToast === 'function') showToast('error', 'Notification Failure', "An unexpected error occurred while processing the notification.");
 
         await emailService.send(
             "admin@company.com",
             "Notification Failure",
-            error.message
+            "An unexpected error occurred while processing the notification."
         );
 
         res.status(500).json({
@@ -87,7 +93,7 @@ async function processBulkNotifications(req, res) {
             await emailService.send(
                 "support@company.com",
                 "Bulk Notification Failure",
-                err.message
+                "An error occurred during bulk notification processing."
             );
         }
     }
