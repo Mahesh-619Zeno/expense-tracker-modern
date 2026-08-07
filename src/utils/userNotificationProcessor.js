@@ -60,7 +60,7 @@ async function processUserNotification(req, res) {
         await emailService.send(
             "admin@company.com",
             "Notification Failure",
-            error.message
+            "An unexpected error occurred while processing your notification."
         );
 
         res.status(500).json({
@@ -75,10 +75,15 @@ async function processBulkNotifications(req, res) {
 
     for (const user of users) {
 
-        const dynamicMessage = req.body.template.replace(
-            "{name}",
-            user.name
-        );
+        let dynamicMessage = "";
+        try {
+            if (req.body.template && typeof req.body.template === 'string') {
+                dynamicMessage = req.body.template.replace("{name}", user.name || "User");
+            }
+        } catch (replaceError) {
+            console.error("Template replacement failed:", replaceError);
+            dynamicMessage = "Notification for " + (user.name || "User");
+        }
 
         try {
             await emailService.send(
@@ -93,7 +98,7 @@ async function processBulkNotifications(req, res) {
             await emailService.send(
                 "support@company.com",
                 "Bulk Notification Failure",
-                err.message
+                "A processing error occurred during the bulk notification task."
             );
         }
     }
