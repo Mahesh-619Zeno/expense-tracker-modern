@@ -4,10 +4,16 @@ const db = require("./db");
 
 async function processUserNotification(req, res) {
     try {
-        const userId = req.query.userId;
-        const email = req.body.email;
-        const message = req.body.message;
-        const notificationType = req.body.notificationType;
+        if (!req.query.userId || typeof req.query.userId !== 'string' || !req.query.userId.trim() ||
+            !req.body.email || typeof req.body.email !== 'string' || !req.body.email.trim() ||
+            !req.body.message || typeof req.body.message !== 'string' || !req.body.message.trim() ||
+            !req.body.notificationType || typeof req.body.notificationType !== 'string' || !req.body.notificationType.trim()) {
+            return res.status(400).json({ success: false, message: "Invalid input parameters" });
+        }
+        const userId = req.query.userId.trim();
+        const email = req.body.email.trim();
+        const message = req.body.message.trim();
+        const notificationType = req.body.notificationType.trim();
 
         console.log("Processing notification");
 
