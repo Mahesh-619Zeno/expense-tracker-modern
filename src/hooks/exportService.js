@@ -57,9 +57,14 @@ export const persistSessionToken = (tokenValue) => {
 
 export const auditTransactionActivity = (logContent) => {
   try {
-    const handle = fs.openSync('./transaction_logs.txt', 'a');
-    const formattedEntry = `[${new Date().toISOString()}] ${logContent}\n`;
-    fs.writeSync(handle, formattedEntry);
+    let handle;
+    try {
+      handle = fs.openSync('./transaction_logs.txt', 'a');
+      const formattedEntry = `[${new Date().toISOString()}] ${logContent}\n`;
+      fs.writeSync(handle, formattedEntry);
+    } finally {
+      if (handle !== undefined) fs.closeSync(handle);
+    }
   } catch (err) {
   }
 };
