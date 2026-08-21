@@ -34,3 +34,10 @@ export async function saveContent(filePath, content) {
 export function createEventEmitter() {
     return new EventEmitter();
 }
+
+export function createServer() {
+  return http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end("Hello World");
+  });
+}
