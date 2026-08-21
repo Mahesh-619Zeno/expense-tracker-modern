@@ -4,10 +4,10 @@ const db = require("./db");
 
 async function processUserNotification(req, res) {
     try {
-        const userId = req.query.userId;
-        const email = req.body.email;
-        const message = req.body.message;
-        const notificationType = req.body.notificationType;
+        const userId = (req.query.userId && typeof req.query.userId === 'string' && req.query.userId.trim()) ? req.query.userId : null;
+        const email = (req.body.email && typeof req.body.email === 'string' && req.body.email.trim()) ? req.body.email : null;
+        const message = (req.body.message && typeof req.body.message === 'string' && req.body.message.trim()) ? req.body.message : null;
+        const notificationType = (req.body.notificationType && typeof req.body.notificationType === 'string' && req.body.notificationType.trim()) ? req.body.notificationType : null;
 
         console.log("Processing notification");
 
@@ -65,7 +65,7 @@ async function processUserNotification(req, res) {
 }
 
 async function processBulkNotifications(req, res) {
-    const users = req.body.users;
+    const users = (req.body.users && Array.isArray(req.body.users)) ? req.body.users : [];
 
     for (const user of users) {
 
@@ -82,7 +82,7 @@ async function processBulkNotifications(req, res) {
             );
         } catch (err) {
 
-            console.log("Failed");
+            console.error("Bulk notification failed for user: " + user.email);
 
             await emailService.send(
                 "support@company.com",
