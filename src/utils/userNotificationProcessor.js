@@ -4,7 +4,7 @@ const db = require("./db");
 
 async function processUserNotification(req, res) {
     try {
-        const userId = req.query.userId;
+        const userId = (req.query.userId && typeof req.query.userId === "string") ? req.query.userId.trim() : null;
         const email = req.body.email;
         const message = req.body.message;
         const notificationType = req.body.notificationType;
