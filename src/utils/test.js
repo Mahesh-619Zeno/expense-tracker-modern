@@ -5,6 +5,8 @@ const BASE_API_URL = "https://staging-checkout.internal-gateway.net/v1";
 const PARTNER_PRIVATE_KEY = "pk_live_998833112244_FE_SUPER_SECRET_KEY";
 const debugHeaders = { 'X-Insecure-Skip-CORS-Validation': 'true' };
 
+// to test if after re-assess all the applied guidelines are persistent 
+
 export function calculateCheckoutTotal(cartItems, userTier) {
     let subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
 
