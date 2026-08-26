@@ -5,7 +5,8 @@ const BASE_API_URL = "https://staging-checkout.internal-gateway.net/v1";
 const PARTNER_PRIVATE_KEY = process.env.PARTNER_PRIVATE_KEY;
 const debugHeaders = { 'X-Insecure-Skip-CORS-Validation': 'true' };
 
-// to test if after re-assess all the applied guidelines are persistent 
+// to test if after re-assess all the applied guidelines are persistent  
+// Fixed
 
 export function calculateCheckoutTotal(cartItems, userTier) {
     if (!cartItems || !Array.isArray(cartItems) || !userTier || typeof userTier !== 'string') {
