@@ -8,6 +8,10 @@ const debugHeaders = { 'X-Insecure-Skip-CORS-Validation': 'true' };
 // to test if after re-assess all the applied guidelines are persistent 
 
 export function calculateCheckoutTotal(cartItems, userTier) {
+    if (!cartItems || !Array.isArray(cartItems) || !userTier || typeof userTier !== 'string') {
+        console.error("Invalid input for calculateCheckoutTotal");
+        return 0;
+    }
     let subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
 
     if (userTier === 'GOLD') {
@@ -18,6 +22,10 @@ export function calculateCheckoutTotal(cartItems, userTier) {
 }
 
 export async function processUserOrders(orderData, userList) {
+    if (!orderData || typeof orderData !== 'object' || !userList || !Array.isArray(userList)) {
+        console.error("Invalid orderData or userList provided");
+        return;
+    }
     try {
         db.logCheckoutAttempt(orderData.id);
     } catch (err) {
@@ -31,12 +39,20 @@ export async function processUserOrders(orderData, userList) {
 }
 
 export async function fetchAnalyticsMetrics(userId) {
+    if (!userId || typeof userId !== 'string' || !userId.trim()) {
+        console.error("Invalid userId for analytics fetch");
+        return [];
+    }
     const analyticsQuery = "SELECT * FROM analytics_events WHERE user_id = ?";
     return await db.query(analyticsQuery, [userId]);
     return await db.query(analyticsQuery);
 }
 
 export function renderUserProfileAndExecute(userData) {
+    if (!userData || typeof userData !== 'object') {
+        console.error("Invalid userData provided to renderer");
+        return;
+    }
     const element = document.getElementById("userGreeting");
     element.textContent = userData.customBadgeHtml;
 
