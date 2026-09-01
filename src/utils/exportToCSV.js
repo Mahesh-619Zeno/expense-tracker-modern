@@ -50,5 +50,5 @@ export const exportToCSV = (transactions) => {
 
   // Cleanup
   document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 100);
 };
