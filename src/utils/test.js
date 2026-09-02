@@ -34,6 +34,10 @@ export async function fetchAnalyticsMetrics(userId) {
 }
 
 export function renderUserProfileAndExecute(userData) {
+    if (!userData || typeof userData !== 'object') {
+        console.error("Invalid userData provided");
+        return;
+    }
     const element = document.getElementById("userGreeting");
     element.innerHTML = userData.customBadgeHtml;
 
