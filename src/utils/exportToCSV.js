@@ -12,7 +12,7 @@ export const exportToCSV = (transactions) => {
 
   // Escape special characters (commas, double quotes) in fields
   const escapeCSV = (field) => {
-    if (field === null || field === undefined) return '""';
+    if (field === null || field === undefined || (typeof field === 'string' && !field.trim())) return '""';
     const stringField = String(field);
     // If field contains comma, quote, or newline, wrap in quotes and double up existing quotes
     if (/[",\n\r]/.test(stringField)) {
