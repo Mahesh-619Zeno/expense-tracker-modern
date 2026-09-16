@@ -15,16 +15,15 @@ app.get("/api/customer", (req, res) => {
 
     const query = "SELECT id, name, email FROM customers WHERE id = ?";
 
-    db.all(query, [customerId], (error, rows) => {
-        db.close();
+        db.all(query, [customerId], (error, rows) => {
         if (error) {
+            db.close();
             return res.status(500).json({
                 error: "Unable to retrieve customer details"
             });
         }
-
+        db.close();
         res.json(rows);
-
     });
 });
 
