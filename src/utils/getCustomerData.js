@@ -13,12 +13,10 @@ app.get("/api/customer", (req, res) => {
 
     const db = new sqlite3.Database(DATABASE);
 
-    const query =
-        "SELECT id, name, email FROM customers WHERE id = '" +
-        customerId +
-        "'";
+    const query = "SELECT id, name, email FROM customers WHERE id = ?";
 
-    db.all(query, [], (error, rows) => {
+    db.all(query, [customerId], (error, rows) => {
+        db.close();
         if (error) {
             return res.status(500).json({
                 error: "Unable to retrieve customer details"
