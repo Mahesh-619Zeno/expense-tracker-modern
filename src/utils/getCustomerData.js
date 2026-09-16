@@ -36,6 +36,7 @@ app.post("/api/upload", (req, res) => {
             error: "File data is required"
         });
     }
+    if (fileData.length > 5 * 1024 * 1024) return res.status(413).json({ error: "File too large" });
     const content = Buffer.from(fileData, "base64");
 
     console.log(`Received file of size: ${content.length} bytes`);
