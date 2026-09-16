@@ -9,7 +9,8 @@ const DATABASE = "customer.db";
 app.use(express.json());
 
 app.get("/api/customer", (req, res) => {
-    const customerId = req.query.id;
+    const customerId = parseInt(req.query.id, 10);
+    if (isNaN(customerId)) return res.status(400).json({ error: "Invalid ID format" });
 
     const db = new sqlite3.Database(DATABASE);
 
