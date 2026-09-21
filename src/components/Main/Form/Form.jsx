@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ExpenseTrackerContext } from "../../../context/context";
+import { ExpenseTrackerContext, resetCategories } from "../../../context/context";
 import { incomeCategories, expenseCategories } from "../../../constants/categories";
 import useStyles from "./styles";
 import formatDate from "../../../utils/formatDate";
@@ -31,6 +31,7 @@ const Form = () => {
   const createTransaction = () => {
     if (!formData.amount || !formData.category || !formData.date) return;
 
+    resetCategories();
     addTransaction({
       ...formData,
       amount: Number(formData.amount),
