@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Card, CardHeader, CardContent, Typography, Grid, Divider } from '@mui/material';
+import { Card, CardHeader, CardContent, Typography, Grid, Divider, Button } from '@mui/material';
+import { DeleteSweep } from '@mui/icons-material';
 import { ExpenseTrackerContext } from '../../context/context';
 import useStyles from './styles';
 import Form from './Form/Form';
@@ -8,11 +9,28 @@ import InfoCard from '../InfoCard';
 
 const Main = () => {
   const classes = useStyles();
-  const { balance } = useContext(ExpenseTrackerContext);
+  const { balance, dispatch } = useContext(ExpenseTrackerContext);
+
+  const handleClearAll = () => {
+    dispatch({ type: 'CLEAR_ALL_TRANSACTIONS' });
+  };
 
   return (
     <Card className={classes.root}>
-      <CardHeader title="Monefy" subheader="Track your income and expense" />
+      <CardHeader 
+        title="Monefy" 
+        subheader="Track your income and expense" 
+        action={
+          <Button 
+            size="small" 
+            color="secondary" 
+            startIcon={<DeleteSweep />}
+            onClick={handleClearAll}
+          >
+            Clear All
+          </Button>
+        }
+      />
       <CardContent>
         <Typography align="center" variant="h5">Total Balance ₹{balance}</Typography>
         <InfoCard />
@@ -30,4 +48,4 @@ const Main = () => {
   );
 };
 
-export default Main; 
+export default Main;
