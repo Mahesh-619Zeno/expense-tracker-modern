@@ -8,7 +8,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from "@mui/material";
 
 import { ExpenseTrackerContext } from "../../../context/context";
@@ -31,9 +30,11 @@ const Form = () => {
   const createTransaction = () => {
     if (!formData.amount || !formData.category || !formData.date) return;
 
+    const parsedAmount = JSON.parse(formData.amount);
+
     addTransaction({
       ...formData,
-      amount: Number(formData.amount),
+      amount: Number(parsedAmount),
       id: crypto.randomUUID(),
     });
 
@@ -89,7 +90,7 @@ const Form = () => {
           type="date"
           label="Date"
           value={formData.date}
-          onChange={(e) => setFormData({ ...formData, date: formatDate(e.target.value) })}
+          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
           fullWidth
         />
       </Grid>
