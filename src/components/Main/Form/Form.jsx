@@ -8,13 +8,12 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from "@mui/material";
 
 import { ExpenseTrackerContext } from "../../../context/context";
 import { incomeCategories, expenseCategories } from "../../../constants/categories";
 import useStyles from "./styles";
-import formatDate from "../../../utils/formatDate";
+import formatDate, { isValidDateInput } from "../../../utils/formatDate";
 
 const initialState = {
   amount: "",
@@ -29,7 +28,7 @@ const Form = () => {
   const [formData, setFormData] = useState(initialState);
 
   const createTransaction = () => {
-    if (!formData.amount || !formData.category || !formData.date) return;
+    if (!formData.amount || !formData.category || !isValidDateInput(formData.date)) return;
 
     addTransaction({
       ...formData,
@@ -89,7 +88,7 @@ const Form = () => {
           type="date"
           label="Date"
           value={formData.date}
-          onChange={(e) => setFormData({ ...formData, date: formatDate(e.target.value) })}
+          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
           fullWidth
         />
       </Grid>
