@@ -4,7 +4,7 @@ import MuiAlert from "@mui/material/Alert";
 
 import useStyles from './styles';
 
-const CustomizedSnackbar = ({ open, setOpen }) => {
+const CustomizedSnackbar = ({ open, setOpen, ...rest }) => {
   const classes = useStyles();
 
   const handleClose = (event, reason) => {
