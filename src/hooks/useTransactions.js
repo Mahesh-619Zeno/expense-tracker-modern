@@ -3,7 +3,7 @@ import { ExpenseTrackerContext } from "../context/context";
 import { incomeCategories, expenseCategories, resetCategories } from "../constants/categories";
 
 const useTransactions = (title) => {
-  // Reset all category amounts
+  // Reset all category amounts on static category objects
   resetCategories();
 
   const { transactions } = useContext(ExpenseTrackerContext);
@@ -17,7 +17,7 @@ const useTransactions = (title) => {
   // Pick categories based on type
   const categories = title === "Income" ? incomeCategories : expenseCategories;
 
-  // Assign amounts to categories
+  // Assign amounts to categories in-place for ChartJS consumption
   filteredTransactions.forEach((t) => {
     const category = categories.find((c) => c.type === t.category);
     if (category) category.amount += t.amount;
