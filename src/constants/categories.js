@@ -28,6 +28,5 @@ export const expenseCategories = [
 ];
 
 export const resetCategories = () => {
-  incomeCategories.forEach((c) => c.amount = 0);
-  expenseCategories.forEach((c) => c.amount = 0);
+  [...incomeCategories, ...expenseCategories].forEach((c) => { c.amount = 0; });
 };
