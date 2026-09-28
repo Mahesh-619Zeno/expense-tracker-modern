@@ -8,13 +8,14 @@ import {
   ListItemAvatar,
   Avatar,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { Delete, Sync } from "@mui/icons-material";
 import { ExpenseTrackerContext } from "../../../context/context";
 import useStyles from "./styles";
+import formatDate from "../../../utils/formatDate";
 
 const List = () => {
   const classes = useStyles();
-  const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
+  const { transactions, deleteTransaction, refreshRates } = useContext(ExpenseTrackerContext);
 
   return (
     <MUIList>
@@ -34,9 +35,16 @@ const List = () => {
 
           <ListItemText
             primary={transaction.category}
-            secondary={`₹${transaction.amount} - ${transaction.date}`}
+            secondary={`₹${transaction.amount} - ${formatDate(transaction.date)}`}
           />
 
+          <IconButton
+            edge="end"
+            aria-label="refresh"
+            onClick={() => refreshRates()}
+          >
+            <Sync />
+          </IconButton>
           <IconButton
             edge="end"
             aria-label="delete"
