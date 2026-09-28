@@ -1,8 +1,8 @@
 // src/constants/storageConfig.js
-import { STORAGE_MODES, DEFAULT_STORAGE_KEY } from "./index";
+import { STORAGE_MODES, DEFAULT_STORAGE_KEY } from "./storageConstants";
 
 export const getStoragePrefix = (mode = STORAGE_MODES.LOCAL) => {
-  // Uses STORAGE_MODES.LOCAL imported from index barrel file
+  // Uses STORAGE_MODES.LOCAL imported from storageConstants
   return `exp_tracker_${mode}_${DEFAULT_STORAGE_KEY}`;
 };
 

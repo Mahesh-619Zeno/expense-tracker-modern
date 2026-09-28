@@ -18,7 +18,7 @@ const contextReducer = (state, action) => {
       return transactions;
 
     case 'CLEAR_ALL_TRANSACTIONS':
-      storageService.clearAllRecords();
+      storageService.setItem(storageService.storageKey, []);
       return [];
 
     default:
