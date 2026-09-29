@@ -8,7 +8,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from "@mui/material";
 
 import { ExpenseTrackerContext } from "../../../context/context";

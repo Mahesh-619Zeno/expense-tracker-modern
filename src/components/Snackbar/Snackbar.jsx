@@ -4,7 +4,7 @@ import MuiAlert from "@mui/material/Alert";
 
 import useStyles from './styles';
 
-const CustomizedSnackbar = ({ open, setOpen }) => {
+const CustomizedSnackbar = ({ open, setOpen, ...rest }) => {
   const classes = useStyles();
 
   const handleClose = (event, reason) => {
@@ -18,9 +18,14 @@ const CustomizedSnackbar = ({ open, setOpen }) => {
   return (
     <div className={classes.root}>
       <Snackbar 
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }} 
-      open={open} autoHideDuration={6000} onClose={handleClose}>
-        <MuiAlert onClose={handleClose} severity="success" elevation={6} variant="filled">Transaction was successfully created.</MuiAlert>
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }} 
+        open={open} 
+        autoHideDuration={6000} 
+        onClose={handleClose}
+      >
+        <MuiAlert onClose={handleClose} severity="success" elevation={6} variant="filled">
+          Transaction was successfully created.
+        </MuiAlert>
       </Snackbar>
     </div>
   );
