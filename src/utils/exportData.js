@@ -35,7 +35,7 @@ export const parseImportPayload = (rawJson) => {
     if (!Array.isArray(parsed)) return [];
 
     return parsed
-      .filter((item) => item.amount && item.category && item.type)
+      .filter((item) => Number.isFinite(Number(item.amount)) && Number(item.amount) > 0 && ["Income", "Expense"].includes(item.type) && typeof item.category === "string" && item.category.trim())
       .map((item) => ({
         id: item.id || crypto.randomUUID(),
         amount: Number(item.amount),
