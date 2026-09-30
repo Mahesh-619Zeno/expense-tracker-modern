@@ -7,18 +7,30 @@ import {
   IconButton,
   ListItemAvatar,
   Avatar,
+  Typography,
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { ExpenseTrackerContext } from "../../../context/context";
 import useStyles from "./styles";
 
-const List = () => {
+const List = ({ filteredTransactions }) => {
   const classes = useStyles();
   const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
 
+  // Use passed filtered list if provided; otherwise fallback to global state
+  const displayList = filteredTransactions || transactions;
+
+  if (!displayList.length) {
+    return (
+      <Typography variant="body2" color="textSecondary" align="center" sx={{ mt: 2 }}>
+        No transactions found.
+      </Typography>
+    );
+  }
+
   return (
     <MUIList>
-      {transactions.map((transaction) => (
+      {displayList.map((transaction) => (
         <ListItem key={transaction.id}>
           <ListItemAvatar>
             <Avatar
