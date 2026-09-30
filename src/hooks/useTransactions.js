@@ -17,7 +17,7 @@ const useTransactions = (title) => {
   const categories = title === "Income" ? incomeCategories : expenseCategories;
 
   // Mutates global categories directly for conversion chart rendering
-  convertCategoryTotals(categories, filteredTransactions, currency, rates);
+  const convertedCategories = convertCategoryTotals(categories.map((category) => ({ ...category })), filteredTransactions, currency, rates);
 
   const chartCategories = categories.filter((c) => c.amount > 0);
 
