@@ -10,15 +10,18 @@ import {
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { ExpenseTrackerContext } from "../../../context/context";
+import CurrencyText from "../../CurrencyText/CurrencyText";
 import useStyles from "./styles";
 
-const List = () => {
+const List = ({ customTransactions }) => {
   const classes = useStyles();
   const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
 
+  const displayList = customTransactions || transactions;
+
   return (
     <MUIList>
-      {transactions.map((transaction) => (
+      {displayList.map((transaction) => (
         <ListItem key={transaction.id}>
           <ListItemAvatar>
             <Avatar
@@ -34,7 +37,11 @@ const List = () => {
 
           <ListItemText
             primary={transaction.category}
-            secondary={`₹${transaction.amount} - ${transaction.date}`}
+            secondary={
+              <React.Fragment>
+                <CurrencyText amount={transaction.amount} /> - {transaction.date}
+              </React.Fragment>
+            }
           />
 
           <IconButton

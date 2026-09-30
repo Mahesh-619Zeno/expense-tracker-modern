@@ -1,10 +1,13 @@
-import React, { useContext } from 'react';
-import { Card, CardHeader, CardContent, Typography, Grid, Divider } from '@mui/material';
-import { ExpenseTrackerContext } from '../../context/context';
-import useStyles from './styles';
-import Form from './Form/Form';
-import List from './List/List';
-import InfoCard from '../InfoCard';
+// src/components/Main/Main.jsx
+import React, { useContext } from "react";
+import { Card, CardHeader, CardContent, Typography, Grid, Divider, Box } from "@mui/material";
+import { ExpenseTrackerContext } from "../../context/context";
+import useStyles from "./styles";
+import Form from "./Form/Form";
+import List from "./List/List";
+import InfoCard from "../InfoCard";
+import CurrencySelector from "../CurrencySelector/CurrencySelector";
+import CurrencyText from "../CurrencyText/CurrencyText";
 
 const Main = () => {
   const classes = useStyles();
@@ -12,9 +15,15 @@ const Main = () => {
 
   return (
     <Card className={classes.root}>
-      <CardHeader title="Monefy" subheader="Track your income and expense" />
+      <CardHeader
+        title="Monefy"
+        subheader="Track your income and expense"
+        action={<CurrencySelector />}
+      />
       <CardContent>
-        <Typography align="center" variant="h5">Total Balance ₹{balance}</Typography>
+        <Typography align="center" variant="h5">
+          Total Balance <CurrencyText amount={balance} />
+        </Typography>
         <InfoCard />
         <Divider className={classes.divider} />
         <Form />
@@ -30,4 +39,4 @@ const Main = () => {
   );
 };
 
-export default Main; 
+export default Main;

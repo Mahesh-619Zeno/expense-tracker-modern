@@ -1,32 +1,26 @@
+// src/hooks/useTransactions.js
 import { useContext } from "react";
 import { ExpenseTrackerContext } from "../context/context";
+import { CurrencyContext } from "../context/CurrencyContext";
 import { incomeCategories, expenseCategories, resetCategories } from "../constants/categories";
+import { convertCategoryTotals } from "../utils/currencyConverter";
 
 const useTransactions = (title) => {
-  // Reset all category amounts
   resetCategories();
 
   const { transactions } = useContext(ExpenseTrackerContext);
+  const { currency, rates } = useContext(CurrencyContext);
 
-  // Filter transactions based on title: Income or Expense
   const filteredTransactions = transactions.filter((t) => t.type === title);
-
-  // Calculate total amount
   const total = filteredTransactions.reduce((acc, curr) => acc + curr.amount, 0);
 
-  // Pick categories based on type
   const categories = title === "Income" ? incomeCategories : expenseCategories;
 
-  // Assign amounts to categories
-  filteredTransactions.forEach((t) => {
-    const category = categories.find((c) => c.type === t.category);
-    if (category) category.amount += t.amount;
-  });
+  // Mutates global categories directly for conversion chart rendering
+  convertCategoryTotals(categories, filteredTransactions, currency, rates);
 
-  // Keep only categories with amount > 0
   const chartCategories = categories.filter((c) => c.amount > 0);
 
-  // ChartJS data format
   const chartData = {
     datasets: [
       {
