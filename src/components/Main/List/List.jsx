@@ -12,13 +12,15 @@ import { Delete } from "@mui/icons-material";
 import { ExpenseTrackerContext } from "../../../context/context";
 import useStyles from "./styles";
 
-const List = () => {
+const List = ({ customTransactions }) => {
   const classes = useStyles();
   const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
 
+  const displayList = customTransactions || transactions;
+
   return (
     <MUIList>
-      {transactions.map((transaction) => (
+      {displayList.map((transaction) => (
         <ListItem key={transaction.id}>
           <ListItemAvatar>
             <Avatar
