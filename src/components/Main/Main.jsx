@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
-import { Card, CardHeader, CardContent, Typography, Grid, Divider } from '@mui/material';
-import { ExpenseTrackerContext } from '../../context/context';
-import useStyles from './styles';
-import Form from './Form/Form';
-import List from './List/List';
-import InfoCard from '../InfoCard';
+// src/components/Main/Main.jsx
+import React, { useContext } from "react";
+import { Card, CardHeader, CardContent, Typography, Grid, Divider } from "@mui/material";
+import { ExpenseTrackerContext } from "../../context/context";
+import useStyles from "./styles";
+import Form from "./Form/Form";
+import List from "./List/List";
+import InfoCard from "../InfoCard";
+import ReconciliationPanel from "../Audit/ReconciliationPanel/ReconciliationPanel";
 
 const Main = () => {
   const classes = useStyles();
@@ -22,6 +24,7 @@ const Main = () => {
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
+            <ReconciliationPanel />
             <List />
           </Grid>
         </Grid>
@@ -30,4 +33,4 @@ const Main = () => {
   );
 };
 
-export default Main; 
+export default Main;

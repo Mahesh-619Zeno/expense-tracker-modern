@@ -8,7 +8,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from "@mui/material";
 
 import { ExpenseTrackerContext } from "../../../context/context";
@@ -29,11 +28,11 @@ const Form = () => {
   const [formData, setFormData] = useState(initialState);
 
   const createTransaction = () => {
-    if (!formData.amount || !formData.category || !formData.date) return;
+    if (formData.amount === "" || !formData.category || !formData.date) return;
 
     addTransaction({
       ...formData,
-      amount: Number(formData.amount),
+      amount: formData.amount,
       id: crypto.randomUUID(),
     });
 
