@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import { red, green } from '@mui/material/colors';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   avatarIncome: {
     backgroundColor: green[500],
     color: '#fff',
@@ -9,5 +9,9 @@ export default makeStyles(() => ({
   avatarExpense: {
     backgroundColor: red[500],
     color: '#fff',
+  },
+  listContainer: {
+    maxHeight: '150px',
+    overflow: 'auto',
   },
 }));

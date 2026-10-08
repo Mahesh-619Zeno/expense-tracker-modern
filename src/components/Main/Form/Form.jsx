@@ -8,7 +8,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from "@mui/material";
 
 import { ExpenseTrackerContext } from "../../../context/context";
@@ -20,7 +19,7 @@ const initialState = {
   amount: "",
   category: "",
   type: "Income",
-  date: formatDate(new Date()),
+  date: null,
 };
 
 const Form = () => {
@@ -29,11 +28,14 @@ const Form = () => {
   const [formData, setFormData] = useState(initialState);
 
   const createTransaction = () => {
-    if (!formData.amount || !formData.category || !formData.date) return;
+    if (!formData.amount || !formData.category) return;
+
+    const transactionDate = formData.date ? formatDate(formData.date) : formatDate(new Date());
 
     addTransaction({
       ...formData,
       amount: Number(formData.amount),
+      date: transactionDate,
       id: crypto.randomUUID(),
     });
 
@@ -88,8 +90,8 @@ const Form = () => {
         <TextField
           type="date"
           label="Date"
-          value={formData.date}
-          onChange={(e) => setFormData({ ...formData, date: formatDate(e.target.value) })}
+          value={formData.date || ''}
+          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
           fullWidth
         />
       </Grid>

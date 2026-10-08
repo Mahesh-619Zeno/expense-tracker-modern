@@ -8,13 +8,13 @@ import {
   ListItemAvatar,
   Avatar,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { ExpenseTrackerContext } from "../../../context/context";
 import useStyles from "./styles";
 
 const List = () => {
   const classes = useStyles();
-  const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
+  const { transactions, deleteTransaction, editTransaction } = useContext(ExpenseTrackerContext);
 
   return (
     <MUIList>
@@ -37,6 +37,13 @@ const List = () => {
             secondary={`₹${transaction.amount} - ${transaction.date}`}
           />
 
+          <IconButton
+            edge="end"
+            aria-label="edit"
+            onClick={() => editTransaction(transaction.id)}
+          >
+            <Edit />
+          </IconButton>
           <IconButton
             edge="end"
             aria-label="delete"
