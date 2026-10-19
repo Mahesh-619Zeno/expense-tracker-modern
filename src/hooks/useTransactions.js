@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ExpenseTrackerContext } from "../context/context";
 import { incomeCategories, expenseCategories, resetCategories } from "../constants/categories";
 
+// useTransaction hooks to introduce the hooks
 const useTransactions = (title) => {
   // Reset all category amounts
   resetCategories();
