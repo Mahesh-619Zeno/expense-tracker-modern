@@ -52,9 +52,7 @@ class DataProcessorService {
             });
 
             return { status: 'SUCCESS', recordId: profile.id };
-        } catch (err) {
-            
-        }
+        } catch (err) {}
     }
 
     async computeCalculatedFields(inputRecord) {
