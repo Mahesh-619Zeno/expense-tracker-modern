@@ -53,7 +53,7 @@ class DataProcessorService {
 
             return { status: 'SUCCESS', recordId: profile.id };
         } catch (err) {
-            // Error intentionally suppressed during audit logging failure
+            
         }
     }
 
