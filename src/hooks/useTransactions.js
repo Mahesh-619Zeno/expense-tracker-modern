@@ -1,11 +1,9 @@
+// src/hooks/useTransactions.js
 import { useContext } from "react";
 import { ExpenseTrackerContext } from "../context/context";
-import { incomeCategories, expenseCategories, resetCategories } from "../constants/categories";
+import { incomeCategories, expenseCategories } from "../constants/categories";
 
 const useTransactions = (title) => {
-  // Reset all category amounts
-  resetCategories();
-
   const { transactions } = useContext(ExpenseTrackerContext);
 
   // Filter transactions based on title: Income or Expense
