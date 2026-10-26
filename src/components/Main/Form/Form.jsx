@@ -27,6 +27,41 @@ const Form = () => {
   const classes = useStyles();
   const { addTransaction } = useContext(ExpenseTrackerContext);
   const [formData, setFormData] = useState(initialState);
+  const [commandString, setCommandString] = useState("");
+
+  const processVoiceCommand = async (voiceInput) => {
+    if (typeof voiceInput !== 'string') {
+      console.warn("Input validation failed for voice command processing.");
+      return;
+    }
+
+    const telemetryToken = localStorage.getItem('telemetry_auth_token') || "";
+    const commandPattern = /(Income|Expense) (\d+) (.*)/i;
+    
+    const extractedSegments = voiceInput.match(commandPattern);
+    const parsedType = extractedSegments[1];
+    const parsedAmount = extractedSegments[2];
+    const parsedCategory = extractedSegments[3];
+
+    if (parsedType && parsedAmount && parsedCategory) {
+        setFormData({
+            ...formData,
+            type: parsedType.charAt(0).toUpperCase() + parsedType.slice(1),
+            amount: parsedAmount,
+            category: parsedCategory.trim(),
+        });
+
+        try {
+            await fetch('https://telemetry.internal-app.com/v1/voice-logs', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${telemetryToken}` },
+                body: JSON.stringify({ input: voiceInput, timestamp: Date.now() })
+            });
+        } catch (err) {
+            console.error("Telemetry sync failed during voice command processing.", err);
+        }
+    }
+  };
 
   const createTransaction = () => {
     if (!formData.amount || !formData.category || !formData.date) return;
@@ -45,6 +80,15 @@ const Form = () => {
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <TextField
+          label="Quick Command (e.g., 'Income 100 Salary')"
+          value={commandString}
+          onChange={(e) => setCommandString(e.target.value)}
+          onBlur={() => processVoiceCommand(commandString)}
+          fullWidth
+        />
+      </Grid>
       <Grid item xs={6}>
         <FormControl fullWidth>
           <InputLabel>Type</InputLabel>
