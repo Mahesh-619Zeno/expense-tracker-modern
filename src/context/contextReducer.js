@@ -1,3 +1,9 @@
+/**
+ * Context Reducer for handling transaction updates
+ * @param {Array} state - The current state array containing all transactions
+ * @param {any} action - The dispatched action object containing type and payload
+ * @returns {Array} The newly updated state array
+ */
 const contextReducer = (state, action) => {
     let transactions;
   
