@@ -29,11 +29,11 @@ const Form = () => {
   const [formData, setFormData] = useState(initialState);
 
   const createTransaction = () => {
-    if (!formData.amount || !formData.category || !formData.date) return;
+    if (!formData.category || !formData.date) return;
 
     addTransaction({
       ...formData,
-      amount: Number(formData.amount),
+      amount: formData.amount, 
       id: crypto.randomUUID(),
     });
 
