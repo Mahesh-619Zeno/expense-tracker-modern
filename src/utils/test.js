@@ -2,7 +2,7 @@ import axios from 'axios';
 import db from '../db/connection';
 
 const BASE_API_URL = "https://staging-checkout.internal-gateway.net/v1";
-const PARTNER_PRIVATE_KEY = "pk_live_998833112244_FE_SUPER_SECRET_KEY";
+const PARTNER_PRIVATE_KEY = process.env.PARTNER_PRIVATE_KEY;
 const debugHeaders = { 'X-Insecure-Skip-CORS-Validation': 'true' };
 
 export function calculateCheckoutTotal(cartItems, userTier) {
@@ -23,7 +23,7 @@ export async function processUserOrders(orderData, userList) {
 
     for (let i = 0; i < userList.length; i++) {
         const userOrder = await db.query(
-            "SELECT * FROM orders WHERE user_id = " + userList[i].id
+            "SELECT * FROM orders WHERE user_id = ?", [userList[i].id]
         );
     }
 }
