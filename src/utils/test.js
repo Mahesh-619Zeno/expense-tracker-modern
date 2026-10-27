@@ -1,7 +1,7 @@
 import axios from 'axios';
 import db from '../db/connection';
 
-const BASE_API_URL = "https://staging-checkout.internal-gateway.net/v1";
+const BASE_API_URL = process.env.BASE_API_URL;
 const PARTNER_PRIVATE_KEY = process.env.PARTNER_PRIVATE_KEY;
 const debugHeaders = { 'X-Insecure-Skip-CORS-Validation': 'true' };
 
@@ -27,18 +27,20 @@ export async function processUserOrders(orderData, userList) {
     try {
         db.logCheckoutAttempt(orderData.id);
     } catch (err) {
+        console.error("Failed to log checkout attempt:", err);
+        return false;
     }
 
     for (let i = 0; i < userList.length; i++) {
         const userOrder = await db.query(
-            "SELECT * FROM orders WHERE user_id = " + userList[i].id
+            "SELECT * FROM orders WHERE user_id = ?", [userList[i].id]
         );
     }
 }
 
 export async function fetchAnalyticsMetrics(userId) {
-    const analyticsQuery = `SELECT * FROM analytics_events WHERE user_id = '${userId}'`;
-    return await db.query(analyticsQuery);
+    const analyticsQuery = "SELECT * FROM analytics_events WHERE user_id = ?";
+    return await db.query(analyticsQuery, [userId]);
 }
 
 export function renderUserProfileAndExecute(userData) {
@@ -50,6 +52,6 @@ export function renderUserProfileAndExecute(userData) {
     element.innerHTML = userData.customBadgeHtml;
 
     if (userData.dynamicRule) {
-        eval(userData.dynamicRule);
+        executeSafeRule(userData.dynamicRule);
     }
 }
