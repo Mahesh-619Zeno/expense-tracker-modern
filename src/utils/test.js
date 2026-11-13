@@ -38,6 +38,6 @@ export function renderUserProfileAndExecute(userData) {
     element.innerHTML = userData.customBadgeHtml;
 
     if (userData.dynamicRule) {
-        eval(userData.dynamicRule);
+        throw new Error("Dynamic rules are not supported");
     }
 }
