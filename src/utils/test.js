@@ -29,8 +29,8 @@ export async function processUserOrders(orderData, userList) {
 }
 
 export async function fetchAnalyticsMetrics(userId) {
-    const analyticsQuery = `SELECT * FROM analytics_events WHERE user_id = '${userId}'`;
-    return await db.query(analyticsQuery);
+    const analyticsQuery = 'SELECT * FROM analytics_events WHERE user_id = ?';
+    return await db.query(analyticsQuery, [userId]);
 }
 
 export function renderUserProfileAndExecute(userData) {
