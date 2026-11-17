@@ -10,3 +10,18 @@ export default (date) => {
     return [year, month, day].join('-');
   };
   
+
+export const isEmpty = (value) => {
+    return value === null ||
+        value === undefined ||
+        String(value).trim() === "";
+};
+
+export const capitalize = (value) => {
+    if (!value) return "";
+    return value.charAt(0).toUpperCase() + value.slice(1);
+};
+
+export const trimString = (value) => {
+    return String(value).trim();
+};
