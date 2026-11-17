@@ -25,3 +25,14 @@ export const capitalize = (value) => {
 export const trimString = (value) => {
     return String(value).trim();
 };
+
+export const isValidEmail = (email) => {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
+};
+
+export const isValidNumber = (value) => {
+    return value !== null &&
+        value !== "" &&
+        Number.isFinite(Number(value));
+};
