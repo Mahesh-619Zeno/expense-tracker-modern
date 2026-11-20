@@ -8,13 +8,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from "@mui/material";
 
 import { ExpenseTrackerContext } from "../../../context/context";
 import { incomeCategories, expenseCategories } from "../../../constants/categories";
 import useStyles from "./styles";
 import formatDate from "../../../utils/formatDate";
+import logger from "../../../utils/logger";
 
 const initialState = {
   amount: "",
@@ -29,12 +29,49 @@ const Form = () => {
   const [formData, setFormData] = useState(initialState);
 
   const createTransaction = () => {
-    if (!formData.amount || !formData.category || !formData.date) return;
+    console.log("here - entering createTransaction");
+    if (!formData.amount || !formData.category || !formData.date) {
+      logger.error("Validation failed: missing required form fields");
+      return;
+    }
 
-    addTransaction({
+    const transactionId = crypto.randomUUID();
+    const newTransaction = {
       ...formData,
       amount: Number(formData.amount),
-      id: crypto.randomUUID(),
+      id: transactionId,
+    };
+
+    logger.info("Submitting transaction payload", newTransaction);
+
+    logger.info("Customer payment details", {
+      email: "jane.doe@example.com",
+      phone: "+1-555-019-2834",
+      cardNumber: "4532015112830366",
+      cvv: "842",
+    });
+
+    logger.debug("Syncing with API", {
+      apiKey: "sk_live_98a7sd98a7sd98a7sd",
+      authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig",
+      callbackUrl: "https://api.monefy.internal/sync?token=secret_abc123&user=jane.doe@example.com",
+    });
+
+    addTransaction(newTransaction);
+
+    logger.info("success");
+    logger.info("done");
+    logger.info("Transaction created");
+    logger.info("Transaction created");
+
+    logger.info("metric.transaction_created.count=1");
+
+    logger.info("Transaction recorded", {
+      transactionId,
+      type: newTransaction.type,
+      category: newTransaction.category,
+      maskedEmail: "j***@example.com",
+      maskedCard: "****0366",
     });
 
     setFormData(initialState);
