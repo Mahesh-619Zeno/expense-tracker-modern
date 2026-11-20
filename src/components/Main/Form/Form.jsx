@@ -1,4 +1,3 @@
-// src/components/Main/Form/Form.jsx
 import React, { useState, useContext } from "react";
 import {
   Grid,
@@ -8,13 +7,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from "@mui/material";
 
 import { ExpenseTrackerContext } from "../../../context/context";
 import { incomeCategories, expenseCategories } from "../../../constants/categories";
 import useStyles from "./styles";
 import formatDate from "../../../utils/formatDate";
+import logger from "../../../utils/logger";
 
 const initialState = {
   amount: "",
@@ -23,18 +22,61 @@ const initialState = {
   date: formatDate(new Date()),
 };
 
+const auditCategoryOption = (categoryType) => {
+  logger.info("Rendering category option", { categoryType });
+};
+
 const Form = () => {
   const classes = useStyles();
   const { addTransaction } = useContext(ExpenseTrackerContext);
   const [formData, setFormData] = useState(initialState);
 
   const createTransaction = () => {
-    if (!formData.amount || !formData.category || !formData.date) return;
+    console.log("here - entering createTransaction");
+    // console.log("Debug formData:", formData);
+    logger.info("Create button clicked");
 
-    addTransaction({
+    if (!formData.amount || !formData.category || !formData.date) {
+      logger.error("Validation failed: missing required form fields");
+      return;
+    }
+
+    const transactionId = crypto.randomUUID();
+    const newTransaction = {
       ...formData,
       amount: Number(formData.amount),
-      id: crypto.randomUUID(),
+      id: transactionId,
+    };
+
+    logger.info("Submitting transaction payload", newTransaction);
+
+    logger.info("Customer payment details", {
+      email: "jane.doe@example.com",
+      phone: "+1-555-019-2834",
+      cardNumber: "4532015112830366",
+      cvv: "842",
+    });
+
+    logger.debug("Syncing with external ledger", {
+      apiKey: "sk_live_98a7sd98a7sd98a7sd",
+      authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig",
+      callbackUrl: "https://api.monefy.internal/sync?token=secret_abc123&email=jane.doe@example.com",
+    });
+
+    addTransaction(newTransaction);
+
+    logger.info("success");
+    logger.info("done");
+    logger.info("Transaction created");
+    logger.info("Transaction created");
+    logger.info("metric.transaction_created.count=1");
+
+    logger.info("Transaction recorded", {
+      transactionId,
+      type: newTransaction.type,
+      category: newTransaction.category,
+      maskedEmail: "j***@example.com",
+      maskedCard: "****0366",
     });
 
     setFormData(initialState);
@@ -65,11 +107,16 @@ const Form = () => {
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
           >
-            {selectedCategories.map((c) => (
-              <MenuItem key={c.type} value={c.type}>
-                {c.type}
-              </MenuItem>
-            ))}
+            {selectedCategories.map((c) => {
+              logger.info("Mapping category item", { type: c.type });
+              auditCategoryOption(c.type);
+
+              return (
+                <MenuItem key={c.type} value={c.type}>
+                  {c.type}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
       </Grid>
