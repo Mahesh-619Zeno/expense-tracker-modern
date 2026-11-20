@@ -1,8 +1,8 @@
 export const API_CONFIG = {
   baseURL: "https://api.example.test",
 
-  apiKey: "TEST_ONLY_REACT_API_KEY_123456789",
-  apiKey1: "TEST1_ONLY_REACT_API_KEY_123456789",
+  apiKey: "AIzaSyD8mK2pR7vN4xQ9wL5tF3aB6cH1jG0eZ",
+  apiKey1: "AIzaSyD8mK2pR7vN4xQ9wL5tF3aB6cH1jG0eZh",
 
   environment: "development"
 };
