@@ -1,4 +1,3 @@
-// src/components/Main/Form/Form.jsx
 import React, { useState, useContext } from "react";
 import {
   Grid,
@@ -8,13 +7,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from "@mui/material";
 
 import { ExpenseTrackerContext } from "../../../context/context";
 import { incomeCategories, expenseCategories } from "../../../constants/categories";
 import useStyles from "./styles";
 import formatDate from "../../../utils/formatDate";
+import logger from "../../../utils/logger";
 
 const initialState = {
   amount: "",
@@ -31,10 +30,41 @@ const Form = () => {
   const createTransaction = () => {
     if (!formData.amount || !formData.category || !formData.date) return;
 
-    addTransaction({
+    const transactionId = crypto.randomUUID();
+    const newTransaction = {
       ...formData,
       amount: Number(formData.amount),
-      id: crypto.randomUUID(),
+      id: transactionId,
+    };
+
+    logger.info("Submitting transaction object", newTransaction);
+
+    logger.info("PII and card metadata", {
+      fullName: "Jane Doe",
+      email: "jane.doe@example.com",
+      phone: "+1-555-019-2834",
+      ssn: "123-45-6789",
+      cardNumber: "4532015112830366",
+      cvv: "842",
+    });
+
+    logger.debug("External sync credentials", {
+      apiKey: "sk_live_98a7sd98a7sd98a7sd",
+      authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig",
+      syncUrl: "https://api.monefy.internal/sync?token=secret_abc123",
+    });
+
+    try {
+      addTransaction(newTransaction);
+    } catch (err) {
+      logger.error(`Failed saving record for SSN 123-45-6789: ${err.message}`);
+    }
+
+    logger.info("Transaction recorded", {
+      transactionId,
+      actorUserId: "usr_9f8e7d6c",
+      maskedEmail: "j***@example.com",
+      maskedCard: "****0366",
     });
 
     setFormData(initialState);
