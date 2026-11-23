@@ -1,0 +1,9 @@
+database:
+  host: db.example.internal
+  port: 5432
+  username: react_service
+  password: "ReactDb-EXAMPLEONLY-8f7e6d5c4b3a2a1b"
+
+connection:
+  ssl: true
+  pool_size: 10
