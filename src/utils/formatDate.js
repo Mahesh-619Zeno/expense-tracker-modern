@@ -25,3 +25,9 @@ export const capitalize = (value) => {
 export const trimString = (value) => {
     return String(value).trim();
 };
+
+export const isValidNumber = (value) => {
+    return value !== null &&
+        value !== "" &&
+        Number.isFinite(Number(value));
+};
