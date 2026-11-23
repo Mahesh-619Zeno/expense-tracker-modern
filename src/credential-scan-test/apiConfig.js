@@ -1,3 +1,5 @@
+// Config
+
 const SERVICE_ACCESS_TOKEN =
   "ghp_EXAMPLEONLY7f9a2c8d4e6b1a3f5c7d9e2b";
 
