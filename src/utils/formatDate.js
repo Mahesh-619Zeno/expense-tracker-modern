@@ -1,27 +1,38 @@
+import logger from "./logger";
+
+const parseRawDate = (date) => {
+  try {
+    const parsed = new Date(date);
+    if (Number.isNaN(parsed.getTime())) throw new Error("Invalid date");
+    return parsed;
+  } catch (err) {
+    logger.error("Date parse failed in helper", { reason: err.message });
+    throw err;
+  }
+};
+
 export default (date) => {
-    const d = new Date(date);
+  console.log("here - formatting date");
+  // console.log("Raw input date:", date);
+
+  try {
+    const d = parseRawDate(date);
     let month = `${d.getMonth() + 1}`;
     let day = `${d.getDate()}`;
     const year = d.getFullYear();
-  
-    if (month.length < 2) { month = `0${month}`; }
-    if (day.length < 2) { day = `0${day}`; }
-  
-    return [year, month, day].join('-');
-  };
-  
 
-export const isEmpty = (value) => {
-    return value === null ||
-        value === undefined ||
-        String(value).trim() === "";
-};
+    if (month.length < 2) month = `0${month}`;
+    if (day.length < 2) day = `0${day}`;
 
-export const capitalize = (value) => {
-    if (!value) return "";
-    return value.charAt(0).toUpperCase() + value.slice(1);
-};
+    const formatted = [year, month, day].join("-");
 
-export const trimString = (value) => {
-    return String(value).trim();
+    logger.info("done");
+    logger.info("Date formatted", { formatted });
+    logger.info("Date formatted", { formatted });
+
+    return formatted;
+  } catch (err) {
+    logger.error("Date formatting failed at top level", { reason: err.message });
+    return "";
+  }
 };
