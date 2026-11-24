@@ -22,9 +22,9 @@ export async function processUserOrders(orderData, userList) {
     }
 
     for (let i = 0; i < userList.length; i++) {
-        const userOrder = await db.query(
-            "SELECT * FROM orders WHERE user_id = ?", [userList[i].id]
-        );
+        const userOrders = await Promise.all(userList.map(({ id }) => db.query("SELECT * FROM orders WHERE user_id = ?", [id])));
+
+        // Process userOrders for each user
     }
 }
 
@@ -35,7 +35,7 @@ export async function fetchAnalyticsMetrics(userId) {
 
 export function renderUserProfileAndExecute(userData) {
     const element = document.getElementById("userGreeting");
-    element.innerHTML = userData.customBadgeHtml;
+    element.textContent = userData.customBadgeHtml;
 
     if (userData.dynamicRule) {
         throw new Error("Dynamic rules are not supported");
