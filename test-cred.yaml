@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expense-tracker-web
+spec:
+  template:
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/techolution/expense-tracker:1.4.0
+          env:
+            - name: SENTRY_AUTH_TOKEN
+              value: "sntrys_eyJpYXQiOjE3MDkyNDgwMDAsInVybCI6Imh0dHBzOi8vc2VudHJ5LmlvIiwia2V5IjoiOXhLMkw5bU40cVI3dlcyaVg4In0=_8f9d2a7b4c1e6f3a9d8c7b2e5f1a4c8d"
+            - name: REDIS_URL
+              value: "rediss://default:R7$kM2#pL9@vW4!qZ8@redis-14920.c282.us-east-1-4.ec2.cloud.redislabs.com:14920"
